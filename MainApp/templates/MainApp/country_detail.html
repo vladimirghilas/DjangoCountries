@@ -1,0 +1,31 @@
+{% extends 'MainApp/base.html' %}
+
+{% block title %}County-detail{% endblock %}
+
+{% block style %}
+    <style>
+        .custom-bullets {
+            list-style-type: disc !important;
+            list-style-position: inside !important;
+            display: list-item !important;
+            padding-left: 1.5em !important;
+            background: transparent !important;
+            border: none !important;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h1 class="mb-3">{{ country.country }}</h1>
+
+        <h5>Официальные языки:</h5>
+        <ul class="list-group">
+            {% for lang in country.languages %}
+                <li class="list-group-item custom-bullets">{{ lang }}</li>
+            {% endfor %}
+        </ul>
+
+        <a href="{% url 'countries-list' %}" class="btn btn-secondary mt-3">← Назад к списку стран</a>
+    </div>
+{% endblock %}

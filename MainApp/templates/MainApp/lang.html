@@ -1,0 +1,14 @@
+{% extends 'MainApp/base.html' %}
+
+{% block title %}languages{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h1>Список языков</h1>
+<ol class="list-group list-group-numbered">
+    {% for lang in languages %}
+        <li class="list-group-item">{{ lang }}</li>
+    {% endfor %}
+</ol>
+    <a href="{% url 'home' %}" class="btn btn-secondary mt-3">← Назад к списку стран</a>
+</div>
+{% endblock %}

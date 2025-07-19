@@ -1,0 +1,18 @@
+{% extends 'MainApp/base.html' %}
+
+{% block title %}О проекте{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>О проекте</h1>
+    <p>Этот проект создан в рамках учебного задания по Django. Здесь отображается информация о странах и языках, используя данные из файла <code>countries.json</code>, без использования базы данных.</p>
+
+    <ul>
+        <li>Используется Django и шаблонизация</li>
+        <li>Данные загружаются из JSON</li>
+        <li>Использован Bootstrap для стилизации</li>
+    </ul>
+
+    <a href="{% url 'home' %}" class="btn btn-secondary mt-3">← Вернуться на главную</a>
+</div>
+{% endblock %}
