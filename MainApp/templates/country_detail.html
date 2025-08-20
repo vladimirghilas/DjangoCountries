@@ -1,4 +1,4 @@
-{% extends 'MainApp/base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}County-detail{% endblock %}
 
@@ -17,7 +17,7 @@
 
 {% block content %}
     <div class="container mt-4">
-        <h1 class="mb-3">{{ country.country }}</h1>
+        <h1 class="mb-3">{{ country.name }}</h1>
 
         <h5>Официальные языки:</h5>
         <ul class="list-group">

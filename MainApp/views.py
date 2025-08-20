@@ -1,47 +1,28 @@
-import os
-import json
-from django.conf import settings
-from django.shortcuts import render
-from django.utils.text import slugify
-from django.http import Http404
+from django.shortcuts import render, get_object_or_404
+from MainApp.models import Country
 
-def load_countries_data():
-    path_json = os.path.join(settings.BASE_DIR, 'countries.json')
-    with open(path_json,'r', encoding='utf-8') as file:
-        countries = json.load(file)
-        
-        for country in countries:
-            country['slug'] = slugify(country.get('country', ''))
 
-    return countries
+def about_view(request):
+    return render(request, 'about.html')
 def home_views(request):
-    return render(request, 'MainApp/home.html')
+    return render(request, 'home.html')
 
 def countries_view(request):
-    countries = load_countries_data()
-    return render(request, 'MainApp/countries.html', {'countries': countries})
+    countries = Country.objects.all().order_by('name')  # все страны из БД
+    return render(request, 'countries.html', {'countries': countries})
 
-def country_detail(request, slug):
-    countries = load_countries_data()
-
-    for country in countries:
-        if country['slug'] == slug:
-            slugify_country = country
-            break
-    else:
-        raise  Http404("Страна не найдена")
-
-    return render(request,'MainApp/country_detail.html',{'country': slugify_country} )
+def country_detail(request, country_name):
+    country = get_object_or_404(Country, name=country_name)
+    return render(request, 'country_detail.html', {'country': country})
 
 def languages_view(request):
-    countries = load_countries_data()
-
+    countries = Country.objects.all()
     languages = set()
+
     for country in countries:
-        langs = country.get('languages', [])
-        for lang in langs:
+        for lang in country.languages:  # поле JSONField
             if lang:
                 languages.add(lang.strip())
-    languages_list = sorted(languages)
 
-    return render(request, 'MainApp/lang.html', {'languages': languages_list})
+    languages_list = sorted(languages)
+    return render(request, 'lang.html', {'languages': languages_list})
