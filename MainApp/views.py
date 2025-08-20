@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from MainApp.models import Country
+from MainApp.models import Country, Language
 
 
 def about_view(request):
@@ -16,13 +16,7 @@ def country_detail(request, country_name):
     return render(request, 'country_detail.html', {'country': country})
 
 def languages_view(request):
-    countries = Country.objects.all()
-    languages = set()
+    # Luăm toate limbile din DB
+    languages = Language.objects.all().prefetch_related('countries').order_by('name')
 
-    for country in countries:
-        for lang in country.languages:  # поле JSONField
-            if lang:
-                languages.add(lang.strip())
-
-    languages_list = sorted(languages)
-    return render(request, 'lang.html', {'languages': languages_list})
+    return render(request, 'lang.html', {'languages': languages})

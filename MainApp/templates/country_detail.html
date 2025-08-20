@@ -21,8 +21,8 @@
 
         <h5>Официальные языки:</h5>
         <ul class="list-group">
-            {% for lang in country.languages %}
-                <li class="list-group-item custom-bullets">{{ lang }}</li>
+            {% for lang in country.languages.all %}
+                <li class="list-group-item custom-bullets">{{ lang.name }}</li>
             {% endfor %}
         </ul>
 

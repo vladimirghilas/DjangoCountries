@@ -5,8 +5,8 @@
 <div class="container mt-4">
     <h1>Список языков</h1>
 <ol class="list-group list-group-numbered">
-    {% for lang in languages %}
-        <li class="list-group-item">{{ lang }}</li>
+    {% for lang in languages.all %}
+        <li class="list-group-item">{{ lang.name }}</li>
     {% endfor %}
 </ol>
     <a href="{% url 'home' %}" class="btn btn-secondary mt-3">← Назад к списку стран</a>
