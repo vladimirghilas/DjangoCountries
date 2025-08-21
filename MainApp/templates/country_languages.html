@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Страна: {{ country.name }}{% endblock %}
+
+{% block style %}
+<style>
+    .card-hover:hover {
+        transform: translateY(-5px);
+        transition: transform 0.2s ease-in-out;
+    }
+    .country-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    .country-flag {
+        width: 60px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-sm rounded-3 mb-4 card-hover">
+        <div class="card-body">
+            <div class="country-header mb-3">
+                {% if country.flag_url %}
+                    <img src="{{ country.flag_url }}" alt="Flag of {{ country.name }}" class="country-flag">
+                {% endif %}
+                <h1 class="card-title mb-0">{{ country.name }}</h1>
+            </div>
+
+            <h5 class="mb-3">Официальные языки:</h5>
+            <div class="d-flex flex-wrap gap-2 mb-3">
+                {% for lang in country.languages.all %}
+                    <span class="badge bg-primary fs-6">
+                        <i class="fa-solid fa-language me-1"></i>{{ lang.name }}
+                    </span>
+                {% empty %}
+                    <p class="text-muted">Нет данных о языках</p>
+                {% endfor %}
+            </div>
+
+            <a href="{% url 'countries-list' %}" class="btn btn-outline-secondary">
+                ← Назад к списку стран
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

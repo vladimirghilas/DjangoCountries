@@ -1,18 +1,67 @@
 {% extends 'base.html' %}
-{% block title %}Countries{% endblock %}
+{% block title %}Страны{% endblock %}
 
 {% block content %}
-    <div class="container mt-4">
-        <h1 class="mb-3">Список стран</h1>
+<!-- Алфавитная навигация -->
+<div class="alphabet mb-4">
+    <a href="{% url 'countries-list' %}"
+       class="btn btn-sm btn-outline-secondary {% if not selected_letter %}active{% endif %}">Все</a>
+    {% for l in letters %}
+        <a href="{% url 'countries-by-letter' l %}"
+           class="btn btn-sm btn-outline-primary {% if selected_letter == l %}active{% endif %}">
+            {{ l }}
+        </a>
+    {% endfor %}
+</div>
 
-        <ol class="list-group list-group-numbered">
-            {% for item in countries %}
-                <li class="list-group-item">
-                    <a href="{% url 'country-detail' country_name=item.name %}">
-                        {{ item.name }}
+<h1 class="mb-4">
+    {% if selected_letter %}
+        Страны на букву "{{ selected_letter }}"
+    {% else %}
+        Все страны
+    {% endif %}
+</h1>
+
+<!-- Список стран в виде карточек -->
+<div class="row row-cols-1 row-cols-md-3 g-3">
+    {% for country in countries %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ country.name }}</h5>
+                    <a href="{% url 'country-languages' country_name=country.name %}" class="btn btn-outline-primary mt-auto">
+                        Языки
                     </a>
-                </li>
-            {% endfor %}
-        </ol>
-    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col">
+            <div class="alert alert-warning">Нет стран на эту букву</div>
+        </div>
+    {% endfor %}
+</div>
+
+<!-- Пагинация -->
+<nav aria-label="Навигация по страницам" class="mt-4">
+    <ul class="pagination justify-content-center">
+        {% if countries.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ countries.previous_page_number }}">← Назад</a>
+            </li>
+        {% endif %}
+
+        {% for num in countries.paginator.page_range %}
+            <li class="page-item {% if countries.number == num %}active{% endif %}">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+        {% endfor %}
+
+        {% if countries.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ countries.next_page_number }}">Вперед →</a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
 {% endblock %}

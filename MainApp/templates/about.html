@@ -4,15 +4,25 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h1>О проекте</h1>
-    <p>Этот проект создан в рамках учебного задания по Django. Здесь отображается информация о странах и языках, используя данные из файла <code>countries.json</code>, без использования базы данных.</p>
+    <div class="card shadow-sm rounded-3">
+        <div class="card-body">
+            <h1 class="card-title mb-3">О проекте</h1>
+            <p class="card-text">
+                Этот проект создан в рамках учебного задания по Django.
+                Здесь отображается информация о странах и языках, используя данные из файла
+                <code>countries.json</code>, без использования базы данных.
+            </p>
 
-    <ul>
-        <li>Используется Django и шаблонизация</li>
-        <li>Данные загружаются из JSON</li>
-        <li>Использован Bootstrap для стилизации</li>
-    </ul>
+            <ul class="list-group list-group-flush mb-3">
+                <li class="list-group-item"><i class="fa-brands fa-python text-primary me-2"></i> Используется <strong>Django</strong> и система шаблонов</li>
+                <li class="list-group-item"><i class="fa-solid fa-database text-success me-2"></i> Данные загружаются из <strong>JSON</strong></li>
+                <li class="list-group-item"><i class="fa-brands fa-bootstrap text-purple me-2"></i> Применяется <strong>Bootstrap</strong> для стилизации</li>
+            </ul>
 
-    <a href="{% url 'home' %}" class="btn btn-secondary mt-3">← Вернуться на главную</a>
+            <a href="{% url 'home' %}" class="btn btn-outline-primary">
+                ← Вернуться на главную
+            </a>
+        </div>
+    </div>
 </div>
 {% endblock %}

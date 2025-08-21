@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Языки{% endblock %}
+
+{% block content %}
+<!-- Алфавитная навигация -->
+<div class="alphabet mb-4">
+    <a href="{% url 'languages-list' %}"
+       class="btn btn-sm btn-outline-secondary {% if not selected_letter %}active{% endif %}">Все</a>
+    {% for l in letters %}
+        <a href="{% url 'languages-by-letter' l %}"
+           class="btn btn-sm btn-outline-primary {% if selected_letter == l %}active{% endif %}">
+            {{ l }}
+        </a>
+    {% endfor %}
+</div>
+
+<h1 class="mb-4">
+    {% if selected_letter %}
+        Языки на букву "{{ selected_letter }}"
+    {% else %}
+        Все языки
+    {% endif %}
+</h1>
+
+<!-- Список языков в виде карточек -->
+<div class="row row-cols-1 row-cols-md-3 g-3 mb-4">
+    {% for lang in languages %}
+        <div class="col">
+            <div class="card shadow-sm h-100">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ lang.name }}</h5>
+                    <a href="{% url 'language-countries' language_name=lang.name %}" class="btn btn-outline-primary mt-auto">
+                        Страны
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col">
+            <div class="alert alert-warning">Нет языков на эту букву</div>
+        </div>
+    {% endfor %}
+</div>
+
+<!-- Пагинация -->
+<nav aria-label="Навигация по страницам" class="mt-3">
+    <ul class="pagination justify-content-center">
+        {% if languages.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ languages.previous_page_number }}">← Назад</a>
+            </li>
+        {% endif %}
+
+        {% for num in languages.paginator.page_range %}
+            {% if num >= languages.number|add:'-2' and num <= languages.number|add:'2' %}
+                <li class="page-item {% if languages.number == num %}active{% endif %}">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if languages.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ languages.next_page_number }}">Вперед →</a>
+            </li>
+        {% endif %}
+    </ul>
+
+    <a href="{% url 'home' %}" class="btn btn-secondary mt-3">← Вернуться на главную</a>
+</nav>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block style %}
+    <style>
+        .card-hover:hover {
+            transform: translateY(-5px);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .language-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="card shadow-sm rounded-3 mb-4 card-hover">
+            <div class="card-body">
+                <!-- Заголовок -->
+                <div class="language-header mb-3">
+                    <h1 class="card-title mb-0">{{ language.name }}</h1>
+                </div>
+
+                <!-- Список стран -->
+                <h4 class="mb-3">Список стран</h4>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                    {% for country in language.countries.all %}
+                        <span class="badge bg-primary fs-6">
+                            <i class="fa-solid fa-flag me-1"></i>{{ country.name }}
+                        </span>
+                    {% empty %}
+                        <p class="text-muted">Нет стран для этого языка</p>
+                    {% endfor %}
+                </div>
+
+                <!-- Кнопка назад -->
+                <a href="{% url 'languages-list' %}" class="btn btn-outline-secondary mt-3">
+                    ← Назад к списку языков
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
